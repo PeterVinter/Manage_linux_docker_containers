@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.7] - 2024-11-18
+
+### Changed
+- Remove log files from git tracking
+- Keep log files local only as per .gitignore rules
+- Improve repository cleanliness
+
+## [v1.0.6] - 2024-11-18
+
+### Added
+- CHANGELOG.md following Keep a Changelog format
+- Documentation of all releases and changes
+- Links to release tags
+
 ## [v1.0.5] - 2024-11-18
 
 ### Added
@@ -38,6 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented security reporting process
 - Added recommended privileges documentation
 
+[v1.0.7]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.7
+[v1.0.6]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.6
 [v1.0.5]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.5
 [v1.0.4]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.4
 [v1.0.3]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.3
