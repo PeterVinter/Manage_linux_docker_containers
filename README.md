@@ -6,6 +6,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/network)
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
+[![Release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/docker-safe-shutdown/graphs/commit-activity)
 [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/PeterVinter/docker-safe-shutdown)](https://hub.docker.com/r/PeterVinter/docker-safe-shutdown)
@@ -73,6 +74,57 @@ Logs are stored in:
 - `startup_logs.txt`: Container startup logs
 - `shutdowns_logs.txt`: Container shutdown logs
 - `shutdowned.txt`: Status of shutdown containers
+
+## Development
+
+### Automated Releases
+
+This project uses GitHub Actions for automated releases. The workflow is triggered when a new tag is pushed and includes:
+
+1. Automated Changelog Generation:
+   - Generates changelog from commit messages
+   - Includes commit hashes for reference
+   - Groups changes by type
+
+2. Quality Checks:
+   - Runs ShellCheck on all scripts
+   - Validates syntax and best practices
+   - Ensures code quality before release
+
+3. Release Creation:
+   - Creates GitHub release automatically
+   - Includes generated changelog
+   - Adds feature list and installation instructions
+
+To create a new release:
+
+1. Make your changes and commit them:
+```bash
+git add .
+git commit -m "feat: your feature description"
+```
+
+2. Create and push a new tag:
+```bash
+git tag -a v1.x.x -m "Release description"
+git push origin v1.x.x
+```
+
+The workflow will automatically:
+- Generate the changelog
+- Run quality checks
+- Create the release
+- Update documentation
+
+### Commit Messages
+
+Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation changes
+- `chore:` Maintenance tasks
+- `refactor:` Code improvements
+- `test:` Test updates
 
 ## Contributing
 
