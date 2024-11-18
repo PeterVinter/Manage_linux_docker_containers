@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get version from tag
+        id: tag_version
+        run: |
+          echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREVIOUS_TAG" ]; then
+            git log --pretty=format:"* %s (%h)" > CHANGELOG.md
+          else
+            git log --pretty=format:"* %s (%h)" $PREVIOUS_TAG..HEAD > CHANGELOG.md
+          fi
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          cat CHANGELOG.md >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: '.'
+          severity: error
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Docker Safe Shutdown ${{ env.TAG_VERSION }}
+          body: |
+            # Docker Safe Shutdown ${{ env.TAG_VERSION }}
+
+            ## Changes in this Release
+            ${{ env.CHANGELOG }}
+
+            ## Features
+            - Safe Docker container shutdown with proper cleanup
+            - Automatic container startup on system boot
+            - Detailed logging system
+            - Error handling and recovery
+            - GitHub Actions CI integration
+
+            ## Installation
+            ```bash
+            git clone https://github.com/PeterVinter/docker-safe-shutdown.git
+            cd docker-safe-shutdown
+            chmod +x *.sh
+            ```
+
+            ## Requirements
+            - Docker installed and running
+            - Linux operating system
+            - Root or sudo privileges
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
