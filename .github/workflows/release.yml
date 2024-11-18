@@ -59,8 +59,8 @@ jobs:
 
             ## Installation
             ```bash
-            git clone https://github.com/PeterVinter/docker-safe-shutdown.git
-            cd docker-safe-shutdown
+            git clone https://github.com/PeterVinter/linux_docker_container_shutdown.git
+            cd linux_docker_container_shutdown
             chmod +x *.sh
             ```
 
