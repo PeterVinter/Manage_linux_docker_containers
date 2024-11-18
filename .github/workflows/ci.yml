@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: '.'
+        severity: error
+
+  test:
+    name: Test Scripts
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Test file permissions
+      run: |
+        chmod +x *.sh
+        for script in *.sh; do
+          if [ -f "$script" ]; then
+            echo "Testing $script"
+            bash -n "$script"
+          fi
+        done

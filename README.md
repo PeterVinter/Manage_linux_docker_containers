@@ -1,71 +1,87 @@
-# Docker Container Manager
+# Docker Safe Shutdown
 
-A set of shell scripts to manage Docker containers with proper shutdown and startup handling, including dependency management.
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/releases)
+[![GitHub license](https://img.shields.io/github/license/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/blob/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/issues)
+[![GitHub stars](https://img.shields.io/github/stars/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/network)
+[![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/docker-safe-shutdown/graphs/commit-activity)
+[![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/PeterVinter/docker-safe-shutdown)](https://hub.docker.com/r/PeterVinter/docker-safe-shutdown)
+[![Docker Image Size](https://img.shields.io/docker/image-size/PeterVinter/docker-safe-shutdown/latest)](https://hub.docker.com/r/PeterVinter/docker-safe-shutdown)
+[![codecov](https://codecov.io/gh/PeterVinter/docker-safe-shutdown/branch/main/graph/badge.svg)](https://codecov.io/gh/PeterVinter/docker-safe-shutdown)
+[![Shellcheck](https://github.com/PeterVinter/docker-safe-shutdown/workflows/ShellCheck/badge.svg)](https://github.com/PeterVinter/docker-safe-shutdown/actions?query=workflow%3AShellCheck)
+[![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/commits/main)
+[![Contributors](https://img.shields.io/github/contributors/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/graphs/contributors)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPeterVinter%2Fdocker-safe-shutdown&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
-## Requirements
+A robust solution for safely shutting down and starting up Docker containers on Linux systems.
 
+## Features
+
+- Safe shutdown of Docker containers with proper cleanup
+- Automatic container startup on system boot
+- Detailed logging of shutdown and startup processes
+- Configurable shutdown timeouts
+- Error handling and recovery
+
+## Prerequisites
+
+- Linux operating system
 - Docker installed and running
 - Bash shell
-- Works on both Ubuntu and macOS
+- Root or sudo privileges
 
 ## Installation
 
-1. Clone or download these scripts to your server
+1. Clone the repository:
+```bash
+git clone https://github.com/PeterVinter/docker-safe-shutdown.git
+cd docker-safe-shutdown
+```
+
 2. Make the scripts executable:
-   ```bash
-   chmod +x start.sh docker_safe_shutdown.sh startup_docker_container.sh
-   ```
+```bash
+chmod +x *.sh
+```
 
 ## Usage
 
-Run the main menu script:
+### Starting Containers
 ```bash
-./start.sh
+./startup_docker_container.sh
 ```
 
-The menu provides the following options:
+### Shutting Down Containers
+```bash
+./docker_safe_shutdown.sh
+```
 
-1. **Shutdown Docker Containers**
-   - Safely stops all running containers
-   - Preserves container configuration for restart
-   - Handles dependencies in correct order
+## Configuration
 
-2. **Start Docker Containers**
-   - Starts previously shutdown containers
-   - Restores original configuration
-   - Handles containers in correct dependency order
+The scripts can be configured by modifying the following variables in the respective scripts:
 
-3. **View Shutdown Log**
-   - Shows the shutdown_logs.txt file
-   - Contains timestamps and container shutdown information
+- `TIMEOUT`: Maximum time to wait for container shutdown
+- `LOG_FILE`: Location of log files
+- `CONTAINER_LIST`: List of containers to manage
 
-4. **View Startup Log**
-   - Shows the startup_logs.txt file
-   - Contains timestamps and container startup information
+## Logging
 
-5. **List Running Containers**
-   - Shows all currently running containers
-   - Displays names, images, and status
+Logs are stored in:
+- `startup_logs.txt`: Container startup logs
+- `shutdowns_logs.txt`: Container shutdown logs
+- `shutdowned.txt`: Status of shutdown containers
 
-6. **List Stopped Containers**
-   - Shows all stopped containers
-   - Displays names, images, and when they were stopped
+## Contributing
 
-7. **Exit**
-   - Exits the program
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
 
-## Files
+## License
 
-- `start.sh`: Main menu script
-- `docker_safe_shutdown.sh`: Handles container shutdown
-- `startup_docker_container.sh`: Handles container startup
-- `shutdowns_logs.txt`: Log file for shutdown operations
-- `startup_logs.txt`: Log file for startup operations
-- `shutdowned.txt`: Stores container configurations for restart
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Notes
+## Support
 
-- The scripts automatically detect the operating system (Ubuntu/macOS) and use appropriate commands
-- All operations are logged with timestamps
-- Container configurations are preserved during shutdown
-- Dependencies are handled automatically based on network connections
+If you encounter any problems or have suggestions, please [open an issue](../../issues/new).
