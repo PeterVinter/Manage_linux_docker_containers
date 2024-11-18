@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.8] - 2024-11-18
+
+### Security
+- Update GitHub Actions checkout to v4
+- Add explicit minimal permissions to workflows
+- Improve CI/CD pipeline security
+
 ## [v1.0.7] - 2024-11-18
 
 ### Changed
@@ -52,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented security reporting process
 - Added recommended privileges documentation
 
+[v1.0.8]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.8
 [v1.0.7]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.7
 [v1.0.6]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.6
 [v1.0.5]: https://github.com/PeterVinter/linux_docker_container_shutdown/releases/tag/v1.0.5
