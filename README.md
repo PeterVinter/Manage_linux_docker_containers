@@ -77,6 +77,39 @@ Logs are stored in:
 
 ## Development
 
+### Project Management
+
+We use GitHub Projects to track the development of features and improvements. You can find our project board at:
+[Docker Safe Shutdown Development](https://github.com/users/PeterVinter/projects/1/views/1)
+
+#### Development Workflow
+
+1. **Issue Tracking**
+   - All features and bugs are tracked as GitHub Issues
+   - Features are versioned following semantic versioning:
+     - v1.0.x: Bug fixes and minor improvements
+     - v1.1.0: New features and functionality
+     - v2.0.0: Breaking changes
+
+2. **Project Board Columns**
+   - 📋 Backlog: Planned features and improvements
+   - 🎯 Priority: Selected for current development
+   - 🏗️ In Progress: Currently being worked on
+   - 👀 Review: Ready for code review
+   - ✅ Done: Completed and merged
+
+3. **Issue Classification**
+   - Priority: 🔥 High, 🚀 Medium, 🌱 Low
+   - Effort: 🐘 Large, 🦊 Medium, 🐇 Small
+   - Target Version: Specified version for release
+   - Assignees: Developer working on the issue
+
+4. **Contributing**
+   - Check the [Project Board](https://github.com/users/PeterVinter/projects/1/views/1) for available tasks
+   - Read [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines
+   - Follow the issue template when creating new issues
+   - Reference issues in pull requests
+
 ### Automated Releases
 
 This project uses GitHub Actions for automated releases. The workflow is triggered when a new tag is pushed and includes:
