@@ -10,8 +10,10 @@ jobs:
   shellcheck:
     name: Shellcheck
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Run ShellCheck
       uses: ludeeus/action-shellcheck@master
       with:
@@ -21,8 +23,10 @@ jobs:
   test:
     name: Test Scripts
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Test file permissions
       run: |
         chmod +x *.sh
