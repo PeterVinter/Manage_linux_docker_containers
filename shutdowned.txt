@@ -1,0 +1,5 @@
+watchtower|containrrr/watchtower|open-webui ||bridge;
+open-webui|ghcr.io/open-webui/open-webui:main|bash start.sh ||bridge;
+watchtower|containrrr/watchtower|open-webui ||bridge;
+watchtower|containrrr/watchtower|open-webui ||bridge;
+open-webui|ghcr.io/open-webui/open-webui:main|bash start.sh ||bridge;
