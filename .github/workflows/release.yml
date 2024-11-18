@@ -11,28 +11,26 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Get version from tag
         id: tag_version
-        run: |
-          echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelog
         id: changelog
         run: |
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           if [ -z "$PREVIOUS_TAG" ]; then
-            git log --pretty=format:"* %s (%h)" > CHANGELOG.md
+            CHANGELOG=$(git log --pretty=format:"* %s (%h)" HEAD)
           else
-            git log --pretty=format:"* %s (%h)" $PREVIOUS_TAG..HEAD > CHANGELOG.md
+            CHANGELOG=$(git log --pretty=format:"* %s (%h)" ${PREVIOUS_TAG}..HEAD)
           fi
-          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
-          cat CHANGELOG.md >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "CHANGELOG<<CHANGELOG_EOF" >> "$GITHUB_OUTPUT"
+          echo "$CHANGELOG" >> "$GITHUB_OUTPUT"
+          echo "CHANGELOG_EOF" >> "$GITHUB_OUTPUT"
 
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
@@ -43,12 +41,12 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Docker Safe Shutdown ${{ env.TAG_VERSION }}
+          name: Docker Safe Shutdown ${{ steps.tag_version.outputs.VERSION }}
           body: |
-            # Docker Safe Shutdown ${{ env.TAG_VERSION }}
+            # Docker Safe Shutdown ${{ steps.tag_version.outputs.VERSION }}
 
             ## Changes in this Release
-            ${{ env.CHANGELOG }}
+            ${{ steps.changelog.outputs.CHANGELOG }}
 
             ## Features
             - Safe Docker container shutdown with proper cleanup
