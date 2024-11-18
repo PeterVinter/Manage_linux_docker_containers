@@ -82,6 +82,8 @@ Logs are stored in:
 We use GitHub Projects to track the development of features and improvements. You can find our project board at:
 [Docker Safe Shutdown Development](https://github.com/users/PeterVinter/projects/1/views/1)
 
+For detailed GitHub CLI commands and workflows, see our [GitHub CLI Workflow Guide](docs/github_cli_workflow.md).
+
 #### Development Workflow
 
 1. **Issue Tracking**
