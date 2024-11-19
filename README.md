@@ -98,10 +98,21 @@ Our changelog follows the [Keep a Changelog](https://keepachangelog.com/) format
 
 This project uses an automated changelog workflow that:
 - Updates CHANGELOG.md when PRs are merged to main
-- Determines change type from PR title (feat, fix, docs, etc.)
-- Increments version number automatically
+- Follows [Semantic Versioning](https://semver.org/) for version numbers:
+  - Major (X.0.0): Breaking changes (feat! or BREAKING CHANGE)
+  - Minor (0.X.0): New features (feat)
+  - Patch (0.0.X): Bug fixes and small changes
+- Determines change type from PR title:
+  - `feat:` → Added (new features)
+  - `fix:` → Fixed (bug fixes)
+  - `docs:` → Documentation
+  - `refactor:` → Changed
+  - `security:` → Security
+  - `feat!:` or `BREAKING CHANGE` → Breaking Change
 - Creates a new PR with changelog updates
 - Follows [Keep a Changelog](https://keepachangelog.com/) format
+
+For detailed workflow documentation, see [GitHub CLI Workflow Guide](docs/github_cli_workflow.md).
 
 ### Automated Releases
 
