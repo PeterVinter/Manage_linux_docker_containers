@@ -1,6 +1,6 @@
 # Docker Safe Shutdown
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/PeterVinter/docker-safe-shutdown)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/PeterVinter/docker-safe-shutdown)
 [![GitHub license](https://img.shields.io/github/license/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/issues)
 [![GitHub stars](https://img.shields.io/github/stars/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/stargazers)
