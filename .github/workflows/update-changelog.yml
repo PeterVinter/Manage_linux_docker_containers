@@ -12,13 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Get PR title and body
         id: pr-info
@@ -84,16 +85,19 @@ jobs:
           git config --local user.name "github-actions[bot]"
           
           # Create branch, commit and push
-          git checkout -b bot/update-changelog-v${NEW_VERSION}
+          BRANCH_NAME="bot/update-changelog-v${NEW_VERSION}"
+          git checkout -b "$BRANCH_NAME"
           git add CHANGELOG.md
           git commit -m "docs: update changelog for v${NEW_VERSION}"
-          git push origin bot/update-changelog-v${NEW_VERSION}
           
-          # Create PR
+          # Force push in case branch exists
+          git push -f origin "$BRANCH_NAME"
+          
+          # Create PR using GitHub CLI
           gh pr create \
             --title "docs: update changelog for v${NEW_VERSION}" \
             --body "Automated changelog update for version ${NEW_VERSION}" \
             --base main \
-            --head bot/update-changelog-v${NEW_VERSION}
+            --head "$BRANCH_NAME" || true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
