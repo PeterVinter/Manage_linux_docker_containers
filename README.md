@@ -81,33 +81,13 @@ We use GitHub Projects to track the development of features and improvements. Yo
 
 For detailed GitHub CLI commands and workflows, see our [GitHub CLI Workflow Guide](docs/github_cli_workflow.md).
 
-#### Development Workflow
+### Automated Changelog
 
-1. **Issue Tracking**
-   - All features and bugs are tracked as GitHub Issues
-   - Features are versioned following semantic versioning:
-     - v1.0.x: Bug fixes and minor improvements
-     - v1.1.0: New features and functionality
-     - v2.0.0: Breaking changes
-
-2. **Project Board Columns**
-   - 📋 Backlog: Planned features and improvements
-   - 🎯 Priority: Selected for current development
-   - 🏗️ In Progress: Currently being worked on
-   - 👀 Review: Ready for code review
-   - ✅ Done: Completed and merged
-
-3. **Issue Classification**
-   - Priority: 🔥 High, 🚀 Medium, 🌱 Low
-   - Effort: 🐘 Large, 🦊 Medium, 🐇 Small
-   - Target Version: Specified version for release
-   - Assignees: Developer working on the issue
-
-4. **Contributing**
-   - Check the [Project Board](https://github.com/PeterVinter/Manage_linux_docker_containers/projects) for available tasks
-   - Read [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines
-   - Follow the issue template when creating new issues
-   - [Create a new issue](https://github.com/PeterVinter/Manage_linux_docker_containers/issues/new) to report bugs or suggest features
+This project uses an automated changelog workflow that:
+- Updates CHANGELOG.md when PRs are merged to main
+- Determines change type from PR title (feat, fix, docs, etc.)
+- Increments version number automatically
+- Creates a new PR with changelog updates
 
 ### Automated Releases
 
