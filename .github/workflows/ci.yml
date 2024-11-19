@@ -36,3 +36,34 @@ jobs:
             bash -n "$script"
           fi
         done
+
+  verify-links:
+    name: Verify Documentation Links
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Install markdown-link-check
+      run: npm install -g markdown-link-check
+    - name: Check links in markdown files
+      run: |
+        find . -name "*.md" -type f -exec markdown-link-check {} \;
+
+  verify-repository-refs:
+    name: Verify Repository References
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+    - name: Check repository references
+      run: |
+        echo "Checking for old repository references..."
+        ! grep -r "linux_docker_container_shutdown" . --exclude-dir=.git
+        ! grep -r "docker-safe-shutdown" . --exclude-dir=.git
+        echo "All repository references are updated"

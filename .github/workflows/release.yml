@@ -41,9 +41,9 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Docker Safe Shutdown ${{ steps.tag_version.outputs.VERSION }}
+          name: Docker Container Management ${{ steps.tag_version.outputs.VERSION }}
           body: |
-            # Docker Safe Shutdown ${{ steps.tag_version.outputs.VERSION }}
+            # Docker Container Management ${{ steps.tag_version.outputs.VERSION }}
 
             ## Changes in this Release
             ${{ steps.changelog.outputs.CHANGELOG }}
@@ -57,8 +57,8 @@ jobs:
 
             ## Installation
             ```bash
-            git clone https://github.com/PeterVinter/linux_docker_container_shutdown.git
-            cd linux_docker_container_shutdown
+            git clone https://github.com/PeterVinter/Manage_linux_docker_containers.git
+            cd Manage_linux_docker_containers
             chmod +x *.sh
             ```
 

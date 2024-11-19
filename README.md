@@ -4,8 +4,8 @@
 ![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/Manage_linux_docker_containers)
 ![Stars](https://img.shields.io/github/stars/PeterVinter/Manage_linux_docker_containers)
 ![Issues](https://img.shields.io/github/issues/PeterVinter/Manage_linux_docker_containers)
-![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=flat&logo=powershell&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat&logo=gnu-bash&logoColor=white)
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 [![Release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/graphs/commit-activity)
@@ -14,24 +14,25 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPeterVinter%2FManage_linux_docker_containers&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
-A robust solution for safely shutting down and starting up Docker containers on Linux systems.
+A comprehensive solution for managing Docker containers on Linux systems, including safe shutdown, startup, and monitoring capabilities.
 
-## Features
+## ✨ Features
 
-- Safe shutdown of Docker containers with proper cleanup
-- Automatic container startup on system boot
-- Detailed logging of shutdown and startup processes
-- Configurable shutdown timeouts
-- Error handling and recovery
+- 🛑 Safe shutdown of Docker containers with proper cleanup
+- 🚀 Automatic container startup on system boot
+- 📝 Detailed logging of all operations
+- 🔄 Error handling and recovery
+- 🔍 Container status monitoring
+- ⚡ Performance optimization
 
-## Prerequisites
+## 📋 Prerequisites
 
 - Linux operating system
 - Docker installed and running
-- Bash shell
+- Bash shell (version 4.0+)
 - Root or sudo privileges
 
-## Installation
+## 🚀 Installation
 
 1. Clone the repository:
 ```bash
@@ -44,7 +45,7 @@ cd Manage_linux_docker_containers
 chmod +x *.sh
 ```
 
-## Usage
+## 🎯 Usage
 
 ### Starting Containers
 ```bash
@@ -56,15 +57,15 @@ chmod +x *.sh
 ./docker_safe_shutdown.sh
 ```
 
-## Configuration
+## ⚙️ Configuration
 
-The scripts can be configured by modifying the following variables in the respective scripts:
+The scripts can be configured by modifying the following variables:
 
 - `TIMEOUT`: Maximum time to wait for container shutdown
 - `LOG_FILE`: Location of log files
 - `CONTAINER_LIST`: List of containers to manage
 
-## Logging
+## 📊 Logging
 
 Logs are stored in:
 - `startup_logs.txt`: Container startup logs
