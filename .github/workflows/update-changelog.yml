@@ -1,0 +1,99 @@
+name: Update Changelog
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  update-changelog:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+          
+      - name: Get PR title and body
+        id: pr-info
+        run: |
+          echo "title=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "${{ github.event.pull_request.body }}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Update Changelog
+        run: |
+          # Get today's date
+          DATE=$(date +%Y-%m-%d)
+          
+          # Read current version from latest entry
+          CURRENT_VERSION=$(grep -m 1 "## \[v" CHANGELOG.md | sed 's/## \[v\(.*\)\].*/\1/')
+          
+          # Increment patch version
+          IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+          NEW_VERSION="${major}.${minor}.$((patch + 1))"
+          
+          # Create new changelog entry
+          NEW_ENTRY="## [v${NEW_VERSION}] - ${DATE}\n\n"
+          
+          # Determine change type from PR title
+          PR_TITLE="${{ steps.pr-info.outputs.title }}"
+          if [[ "$PR_TITLE" == *"feat:"* || "$PR_TITLE" == *"feature:"* ]]; then
+            CHANGE_TYPE="Added"
+          elif [[ "$PR_TITLE" == *"fix:"* ]]; then
+            CHANGE_TYPE="Fixed"
+          elif [[ "$PR_TITLE" == *"docs:"* ]]; then
+            CHANGE_TYPE="Documentation"
+          elif [[ "$PR_TITLE" == *"refactor:"* ]]; then
+            CHANGE_TYPE="Changed"
+          elif [[ "$PR_TITLE" == *"security:"* ]]; then
+            CHANGE_TYPE="Security"
+          else
+            CHANGE_TYPE="Changed"
+          fi
+          
+          NEW_ENTRY+="### ${CHANGE_TYPE}\n"
+          NEW_ENTRY+="- ${PR_TITLE#*: }\n"
+          
+          # Add PR body details if they exist
+          if [ ! -z "${{ steps.pr-info.outputs.body }}" ]; then
+            while IFS= read -r line; do
+              if [[ "$line" =~ ^-[[:space:]].*$ ]]; then
+                NEW_ENTRY+="$line\n"
+              fi
+            done <<< "${{ steps.pr-info.outputs.body }}"
+          fi
+          
+          # Add version link at the end
+          NEW_ENTRY+="\n[v${NEW_VERSION}]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v${NEW_VERSION}\n"
+          
+          # Create temporary file with new content
+          echo -e "$NEW_ENTRY" > temp_entry
+          sed -i '7r temp_entry' CHANGELOG.md
+          rm temp_entry
+          
+          # Configure Git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Create branch, commit and push
+          git checkout -b bot/update-changelog-v${NEW_VERSION}
+          git add CHANGELOG.md
+          git commit -m "docs: update changelog for v${NEW_VERSION}"
+          git push origin bot/update-changelog-v${NEW_VERSION}
+          
+          # Create PR
+          gh pr create \
+            --title "docs: update changelog for v${NEW_VERSION}" \
+            --body "Automated changelog update for version ${NEW_VERSION}" \
+            --base main \
+            --head bot/update-changelog-v${NEW_VERSION}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
