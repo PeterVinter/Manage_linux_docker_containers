@@ -120,18 +120,18 @@ jobs:
           CLEAN_TITLE=$(echo "${PR_TITLE#*: }" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
           NEW_ENTRY+="- ${CLEAN_TITLE}\n"
           
-          # Add PR body details if they exist with improved formatting
+          # Process PR body for changelog
           PR_BODY=$(cat << 'EOF'
           ${{ steps.pr-info.outputs.body }}
           EOF
           )
-          if [ ! -z "$PR_BODY" ]; then
+          if [ -n "$PR_BODY" ]; then
             echo "Processing PR body for additional details"
             echo "$PR_BODY" | while IFS= read -r line; do
               # Skip PR template checkboxes, empty lines, and markdown headers
-              if [[ ! "$line" =~ ^\s*-\s*\[[ xX]\] ]] && \
-                 [[ ! "$line" =~ ^#+ ]] && \
-                 [ ! -z "$(echo "$line" | tr -d '[:space:]')" ]; then
+              if [[ ! "$line" =~ ^[[:space:]]*-[[:space:]]*\[[[:space:]xX[:space:]]\] ]] && \
+                 [[ ! "$line" =~ ^[[:space:]]*#+ ]] && \
+                 [ -n "$(echo "$line" | tr -d '[:space:]')" ]; then
                 NEW_ENTRY+="  - $(echo "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')\n"
               fi
             done
