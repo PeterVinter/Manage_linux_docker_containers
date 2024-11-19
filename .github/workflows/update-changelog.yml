@@ -53,19 +53,31 @@ jobs:
           DATE=$(date +%Y-%m-%d)
           echo "Generating changelog entry for date: $DATE"
           
-          # Increment patch version
+          # Increment version based on PR title
           IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
-          NEW_VERSION="${major}.${minor}.$((patch + 1))"
+          PR_TITLE="${{ steps.pr-info.outputs.title }}"
+          echo "Processing PR title: $PR_TITLE"
+          
+          if [[ "$PR_TITLE" == *"!"* || "$PR_TITLE" == *"BREAKING CHANGE"* ]]; then
+            echo "Detected breaking change, incrementing major version"
+            NEW_VERSION="$((major + 1)).0.0"
+          elif [[ "$PR_TITLE" == *"feat:"* || "$PR_TITLE" == *"feature:"* ]]; then
+            echo "Detected new feature, incrementing minor version"
+            NEW_VERSION="${major}.$((minor + 1)).0"
+          else
+            echo "Detected patch change, incrementing patch version"
+            NEW_VERSION="${major}.${minor}.$((patch + 1))"
+          fi
+          
           echo "New version will be: $NEW_VERSION"
           
           # Create new changelog entry
           NEW_ENTRY="## [v${NEW_VERSION}] - ${DATE}\n\n"
           
           # Determine change type from PR title
-          PR_TITLE="${{ steps.pr-info.outputs.title }}"
-          echo "Processing PR title: $PR_TITLE"
-          
-          if [[ "$PR_TITLE" == *"feat:"* || "$PR_TITLE" == *"feature:"* ]]; then
+          if [[ "$PR_TITLE" == *"!"* || "$PR_TITLE" == *"BREAKING CHANGE"* ]]; then
+            CHANGE_TYPE="Breaking Change"
+          elif [[ "$PR_TITLE" == *"feat:"* || "$PR_TITLE" == *"feature:"* ]]; then
             CHANGE_TYPE="Added"
           elif [[ "$PR_TITLE" == *"fix:"* ]]; then
             CHANGE_TYPE="Fixed"
