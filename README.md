@@ -94,6 +94,23 @@ This project uses GitHub's project management features to track issues, pull req
 
 Our changelog follows the [Keep a Changelog](https://keepachangelog.com/) format and is automatically updated when PRs are merged.
 
+### Changelog Management
+
+This repository uses automated changelog generation through GitHub Actions. When you create a PR:
+
+1. Use conventional commit format in PR titles:
+   - `feat:` for new features (increments minor version)
+   - `fix:` for bug fixes (increments patch version)
+   - `feat!:` or include `BREAKING CHANGE` for breaking changes (increments major version)
+   - `docs:` for documentation changes
+   - `refactor:` for code changes that neither fix bugs nor add features
+
+2. The workflow will automatically:
+   - Skip changelog updates for changelog-only PRs
+   - Create a new changelog entry based on your PR title and description
+   - Increment version number according to semantic versioning
+   - Create a new PR with the changelog update
+
 ### Automated Changelog
 
 This project uses an automated changelog workflow that:
