@@ -6,9 +6,9 @@
 ![Issues](https://img.shields.io/github/issues/PeterVinter/Manage_linux_docker_containers)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat&logo=gnu-bash&logoColor=white)
-[![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
-[![Release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/graphs/commit-activity)
+[![CI](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/ci.yml/badge.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/ci.yml)
+[![Release](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/release.yml/badge.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/release.yml)
+[![Maintenance](https://img.shields.io/maintenance/yes/2024)](https://github.com/PeterVinter/Manage_linux_docker_containers/graphs/commit-activity)
 ![Tests](https://img.shields.io/badge/Tests-Passing-success)
 [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
@@ -77,7 +77,7 @@ Logs are stored in:
 ### Project Management
 
 We use GitHub Projects to track the development of features and improvements. You can find our project board at:
-[Manage_linux_docker_containers Development](https://github.com/users/PeterVinter/projects/1/views/1)
+[Project Board](https://github.com/PeterVinter/Manage_linux_docker_containers/projects)
 
 For detailed GitHub CLI commands and workflows, see our [GitHub CLI Workflow Guide](docs/github_cli_workflow.md).
 
@@ -104,10 +104,10 @@ For detailed GitHub CLI commands and workflows, see our [GitHub CLI Workflow Gui
    - Assignees: Developer working on the issue
 
 4. **Contributing**
-   - Check the [Project Board](https://github.com/users/PeterVinter/projects/1/views/1) for available tasks
+   - Check the [Project Board](https://github.com/PeterVinter/Manage_linux_docker_containers/projects) for available tasks
    - Read [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines
    - Follow the issue template when creating new issues
-   - Reference issues in pull requests
+   - [Create a new issue](https://github.com/PeterVinter/Manage_linux_docker_containers/issues/new) to report bugs or suggest features
 
 ### Automated Releases
 
@@ -168,4 +168,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-If you encounter any problems or have suggestions, please [open an issue](../../issues/new).
+If you encounter any problems or have suggestions, please [open an issue](https://github.com/PeterVinter/Manage_linux_docker_containers/issues/new).
