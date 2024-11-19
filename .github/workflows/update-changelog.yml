@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           
       - name: Get PR title and body
         id: pr-info
@@ -31,21 +31,40 @@ jobs:
 
       - name: Update Changelog
         run: |
+          # Check if CHANGELOG.md exists
+          if [ ! -f CHANGELOG.md ]; then
+            echo "Error: CHANGELOG.md not found"
+            echo "Creating initial CHANGELOG.md"
+            echo "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n" > CHANGELOG.md
+            CURRENT_VERSION="0.0.0"
+          else
+            echo "Reading current version from CHANGELOG.md"
+            # Read current version from latest entry with error handling
+            CURRENT_VERSION=$(grep -m 1 "## \[v" CHANGELOG.md | sed 's/## \[v\(.*\)\].*/\1/')
+            if [ -z "$CURRENT_VERSION" ]; then
+              echo "Warning: No version found in CHANGELOG.md, using 0.0.0"
+              CURRENT_VERSION="0.0.0"
+            else
+              echo "Current version: $CURRENT_VERSION"
+            fi
+          fi
+          
           # Get today's date
           DATE=$(date +%Y-%m-%d)
-          
-          # Read current version from latest entry
-          CURRENT_VERSION=$(grep -m 1 "## \[v" CHANGELOG.md | sed 's/## \[v\(.*\)\].*/\1/')
+          echo "Generating changelog entry for date: $DATE"
           
           # Increment patch version
           IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
           NEW_VERSION="${major}.${minor}.$((patch + 1))"
+          echo "New version will be: $NEW_VERSION"
           
           # Create new changelog entry
           NEW_ENTRY="## [v${NEW_VERSION}] - ${DATE}\n\n"
           
           # Determine change type from PR title
           PR_TITLE="${{ steps.pr-info.outputs.title }}"
+          echo "Processing PR title: $PR_TITLE"
+          
           if [[ "$PR_TITLE" == *"feat:"* || "$PR_TITLE" == *"feature:"* ]]; then
             CHANGE_TYPE="Added"
           elif [[ "$PR_TITLE" == *"fix:"* ]]; then
@@ -60,11 +79,13 @@ jobs:
             CHANGE_TYPE="Changed"
           fi
           
+          echo "Change type determined as: $CHANGE_TYPE"
           NEW_ENTRY+="### ${CHANGE_TYPE}\n"
           NEW_ENTRY+="- ${PR_TITLE#*: }\n"
           
           # Add PR body details if they exist
           if [ ! -z "${{ steps.pr-info.outputs.body }}" ]; then
+            echo "Processing PR body for additional details"
             while IFS= read -r line; do
               if [[ "$line" =~ ^-[[:space:]].*$ ]]; then
                 NEW_ENTRY+="$line\n"
@@ -75,29 +96,42 @@ jobs:
           # Add version link at the end
           NEW_ENTRY+="\n[v${NEW_VERSION}]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v${NEW_VERSION}\n"
           
-          # Create temporary file with new content
+          echo "Creating temporary file with new changelog entry"
           echo -e "$NEW_ENTRY" > temp_entry
-          sed -i '7r temp_entry' CHANGELOG.md
+          
+          if [ -s CHANGELOG.md ]; then
+            echo "Inserting new entry into existing CHANGELOG.md"
+            sed -i '7r temp_entry' CHANGELOG.md
+          else
+            echo "Creating new CHANGELOG.md with initial entry"
+            cat temp_entry >> CHANGELOG.md
+          fi
           rm temp_entry
           
           # Configure Git
+          echo "Configuring Git"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
           # Create branch, commit and push
           BRANCH_NAME="bot/update-changelog-v${NEW_VERSION}"
+          echo "Creating branch: $BRANCH_NAME"
           git checkout -b "$BRANCH_NAME"
+          
+          echo "Committing changes"
           git add CHANGELOG.md
           git commit -m "docs: update changelog for v${NEW_VERSION}"
           
-          # Force push in case branch exists
+          echo "Pushing changes"
           git push -f origin "$BRANCH_NAME"
           
-          # Create PR using GitHub CLI
+          echo "Creating pull request"
           gh pr create \
             --title "docs: update changelog for v${NEW_VERSION}" \
             --body "Automated changelog update for version ${NEW_VERSION}" \
             --base main \
-            --head "$BRANCH_NAME" || true
+            --head "$BRANCH_NAME" || {
+              echo "Warning: Failed to create PR. This might be because a PR already exists."
+            }
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
