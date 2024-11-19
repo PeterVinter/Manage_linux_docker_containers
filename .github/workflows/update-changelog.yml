@@ -109,16 +109,15 @@ jobs:
           NEW_ENTRY+="- ${PR_TITLE#*: }\n"
           
           # Add PR body details if they exist
-          if [ ! -z "${{ steps.pr-info.outputs.body }}" ]; then
+          PR_BODY="${{ steps.pr-info.outputs.body }}"
+          if [ ! -z "$PR_BODY" ]; then
             echo "Processing PR body for additional details"
-            while IFS= read -r line; do
+            echo "$PR_BODY" | while IFS= read -r line; do
               # Skip PR template checkboxes and empty lines
-              if [[ ! "$line" =~ ^\s*-\s*\[[ xX]\] ]]; then
-                if [ ! -z "$line" ]; then
-                  NEW_ENTRY+="  - $line\n"
-                fi
+              if [[ ! "$line" =~ ^\s*-\s*\[[ xX]\] ]] && [ ! -z "$line" ]; then
+                NEW_ENTRY+="  - $line\n"
               fi
-            done <<< "${{ steps.pr-info.outputs.body }}"
+            done
           fi
           
           # Add version link
