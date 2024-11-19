@@ -125,6 +125,52 @@ gh run view <run-id>
 gh run watch <run-id>
 ```
 
+## Automated Changelog Workflow
+
+Our repository uses an automated changelog workflow that follows [Semantic Versioning](https://semver.org/) and [Keep a Changelog](https://keepachangelog.com/) standards.
+
+### Version Increment Rules
+- **Major Version (X.0.0)**: Breaking changes
+  - Indicated by `feat!:` or `BREAKING CHANGE` in commit message
+  - Example: `feat!: rename repository`
+- **Minor Version (0.X.0)**: New features
+  - Indicated by `feat:` in commit message
+  - Example: `feat: add new logging system`
+- **Patch Version (0.0.X)**: Bug fixes and small changes
+  - All other commit types (`fix:`, `docs:`, etc.)
+  - Example: `fix: resolve logging issue`
+
+### Change Type Categories
+- `feat:` → Added
+- `fix:` → Fixed
+- `docs:` → Documentation
+- `refactor:` → Changed
+- `security:` → Security
+- `feat!:` or `BREAKING CHANGE` → Breaking Change
+
+### Workflow Process
+1. Create a PR with conventional commit message:
+```bash
+gh pr create --title "feat: add new feature" --body "Description of the feature"
+```
+
+2. After merge, the workflow automatically:
+   - Determines change type from PR title
+   - Increments version number
+   - Updates CHANGELOG.md
+   - Creates a new PR with changelog updates
+
+3. Review and merge the changelog PR:
+```bash
+gh pr list  # Find the changelog PR
+gh pr merge <number> --merge  # Merge the changelog PR
+```
+
+4. Verify the release:
+```bash
+gh release view <version>  # e.g., v2.0.0
+```
+
 ## Common Workflows
 
 ### Feature Development Flow
