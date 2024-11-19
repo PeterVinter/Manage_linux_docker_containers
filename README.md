@@ -13,6 +13,7 @@
 [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPeterVinter%2FManage_linux_docker_containers&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Changelog Update](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/update-changelog.yml/badge.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/update-changelog.yml)
 
 A comprehensive solution for managing Docker containers on Linux systems, including safe shutdown, startup, and monitoring capabilities.
 
