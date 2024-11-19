@@ -1,10 +1,5 @@
 # Docker Safe Shutdown
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/PeterVinter/docker-safe-shutdown)
-[![GitHub license](https://img.shields.io/github/license/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/blob/main/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/issues)
-[![GitHub stars](https://img.shields.io/github/stars/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/network)
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 [![Release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/docker-safe-shutdown/graphs/commit-activity)
