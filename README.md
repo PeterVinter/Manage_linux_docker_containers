@@ -1,15 +1,16 @@
 # Docker Safe Shutdown
 
+![License](https://img.shields.io/github/license/PeterVinter/docker-safe-shutdown)
+![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/docker-safe-shutdown)
+![Stars](https://img.shields.io/github/stars/PeterVinter/docker-safe-shutdown)
+![Issues](https://img.shields.io/github/issues/PeterVinter/docker-safe-shutdown)
+![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=flat&logo=powershell&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 [![Release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/docker-safe-shutdown/graphs/commit-activity)
+![Tests](https://img.shields.io/badge/Tests-Passing-success)
 [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/PeterVinter/docker-safe-shutdown)](https://hub.docker.com/r/PeterVinter/docker-safe-shutdown)
-[![Docker Image Size](https://img.shields.io/docker/image-size/PeterVinter/docker-safe-shutdown/latest)](https://hub.docker.com/r/PeterVinter/docker-safe-shutdown)
-[![codecov](https://codecov.io/gh/PeterVinter/docker-safe-shutdown/branch/main/graph/badge.svg)](https://codecov.io/gh/PeterVinter/docker-safe-shutdown)
-[![Shellcheck](https://github.com/PeterVinter/docker-safe-shutdown/workflows/ShellCheck/badge.svg)](https://github.com/PeterVinter/docker-safe-shutdown/actions?query=workflow%3AShellCheck)
-[![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/commits/main)
-[![Contributors](https://img.shields.io/github/contributors/PeterVinter/docker-safe-shutdown)](https://github.com/PeterVinter/docker-safe-shutdown/graphs/contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPeterVinter%2Fdocker-safe-shutdown&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
