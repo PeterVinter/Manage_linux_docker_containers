@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Get PR title and body
         id: pr-info
@@ -100,4 +100,4 @@ jobs:
             --base main \
             --head "$BRANCH_NAME" || true
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
