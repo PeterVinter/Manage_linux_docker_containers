@@ -88,6 +88,7 @@ This project uses an automated changelog workflow that:
 - Determines change type from PR title (feat, fix, docs, etc.)
 - Increments version number automatically
 - Creates a new PR with changelog updates
+- Follows [Keep a Changelog](https://keepachangelog.com/) format
 
 ### Automated Releases
 
