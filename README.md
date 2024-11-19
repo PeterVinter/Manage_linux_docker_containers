@@ -83,6 +83,45 @@ Logs are stored in:
 
 ## Development
 
+### Branch Structure
+
+This repository follows a simplified GitFlow workflow with two main branches:
+
+- `main`: The stable branch containing production-ready code
+  - All releases are tagged from this branch
+  - Protected branch requiring PR reviews
+  - Must pass all CI checks before merging
+
+- `develop`: The development branch where features are integrated
+  - All feature branches merge here first
+  - Contains latest development changes
+  - Must pass CI checks before merging
+
+#### Working with Branches
+
+1. Feature Development
+   ```bash
+   git checkout develop
+   git checkout -b feature/your-feature
+   # Make your changes
+   git push origin feature/your-feature
+   # Create PR to develop
+   ```
+
+2. Bug Fixes
+   ```bash
+   git checkout develop
+   git checkout -b fix/bug-description
+   # Fix the bug
+   git push origin fix/bug-description
+   # Create PR to develop
+   ```
+
+3. Release Process
+   - Features are merged into `develop`
+   - When ready for release, `develop` is merged into `main`
+   - Release tags are created from `main`
+
 ### Project Management
 
 This project uses GitHub's project management features to track issues, pull requests, and milestones. We follow a structured workflow:
