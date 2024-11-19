@@ -8,7 +8,9 @@ on:
 
 jobs:
   update-changelog:
-    if: github.event.pull_request.merged == true
+    if: |
+      github.event.pull_request.merged == true && 
+      !startsWith(github.event.pull_request.title, 'docs: update changelog for v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -29,7 +31,18 @@ jobs:
           echo "${{ github.event.pull_request.body }}" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+      - name: Check if only changelog was modified
+        id: changelog-check
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          if [ "$CHANGED_FILES" = "CHANGELOG.md" ]; then
+            echo "only_changelog=true" >> $GITHUB_OUTPUT
+          else
+            echo "only_changelog=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Update Changelog
+        if: steps.changelog-check.outputs.only_changelog != 'true'
         run: |
           # Check if CHANGELOG.md exists
           if [ ! -f CHANGELOG.md ]; then
@@ -100,51 +113,39 @@ jobs:
             echo "Processing PR body for additional details"
             while IFS= read -r line; do
               # Skip PR template checkboxes and empty lines
-              if [[ "$line" =~ ^-[[:space:]][^[\]]*$ && ! "$line" =~ "[ ]" ]]; then
-                NEW_ENTRY+="$line\n"
+              if [[ ! "$line" =~ ^\s*-\s*\[[ xX]\] ]]; then
+                if [ ! -z "$line" ]; then
+                  NEW_ENTRY+="  - $line\n"
+                fi
               fi
             done <<< "${{ steps.pr-info.outputs.body }}"
           fi
           
-          # Add version link at the end
+          # Add version link
           NEW_ENTRY+="\n[v${NEW_VERSION}]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v${NEW_VERSION}\n"
           
-          echo "Creating temporary file with new changelog entry"
-          echo -e "$NEW_ENTRY" > temp_entry
-          
-          if [ -s CHANGELOG.md ]; then
-            echo "Inserting new entry into existing CHANGELOG.md"
-            sed -i '7r temp_entry' CHANGELOG.md
-          else
-            echo "Creating new CHANGELOG.md with initial entry"
-            cat temp_entry >> CHANGELOG.md
-          fi
-          rm temp_entry
+          # Create temporary file with new content
+          echo -e "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),\nand this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n\n${NEW_ENTRY}\n$(tail -n +7 CHANGELOG.md)" > CHANGELOG.md.new
+          mv CHANGELOG.md.new CHANGELOG.md
           
           # Configure Git
-          echo "Configuring Git"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           
-          # Create branch, commit and push
+          # Create branch and commit changes
           BRANCH_NAME="bot/update-changelog-v${NEW_VERSION}"
-          echo "Creating branch: $BRANCH_NAME"
           git checkout -b "$BRANCH_NAME"
-          
-          echo "Committing changes"
           git add CHANGELOG.md
           git commit -m "docs: update changelog for v${NEW_VERSION}"
+          git push origin "$BRANCH_NAME"
           
-          echo "Pushing changes"
-          git push -f origin "$BRANCH_NAME"
-          
-          echo "Creating pull request"
+          # Create PR
           gh pr create \
             --title "docs: update changelog for v${NEW_VERSION}" \
             --body "Automated changelog update for version ${NEW_VERSION}" \
             --base main \
             --head "$BRANCH_NAME" || {
-              echo "Warning: Failed to create PR. This might be because a PR already exists."
+              echo "Failed to create PR, but continuing..."
             }
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
