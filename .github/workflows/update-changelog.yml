@@ -87,7 +87,8 @@ jobs:
           if [ ! -z "${{ steps.pr-info.outputs.body }}" ]; then
             echo "Processing PR body for additional details"
             while IFS= read -r line; do
-              if [[ "$line" =~ ^-[[:space:]].*$ ]]; then
+              # Skip PR template checkboxes and empty lines
+              if [[ "$line" =~ ^-[[:space:]][^[\]]*$ && ! "$line" =~ "[ ]" ]]; then
                 NEW_ENTRY+="$line\n"
               fi
             done <<< "${{ steps.pr-info.outputs.body }}"
