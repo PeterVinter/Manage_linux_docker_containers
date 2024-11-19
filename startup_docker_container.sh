@@ -6,8 +6,9 @@ SHUTDOWN_LIST="shutdowned.txt"
 
 log_message() {
     local message="$1"
+    local level="${2:-INFO}"  # Default level is INFO
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    echo "[$timestamp] $message" | tee -a "$LOG_FILE"
+    echo "[$timestamp] [$level] $message" | tee -a "$LOG_FILE"
 }
 
 # Function to check container status
@@ -25,6 +26,19 @@ check_container() {
     fi
 }
 
+# Function to get container details
+get_container_details() {
+    local name=$1
+    local details=$(docker inspect "$name" 2>/dev/null)
+    if [ $? -eq 0 ]; then
+        local ip=$(echo "$details" | grep -m 1 '"IPAddress":' | cut -d '"' -f 4)
+        local created=$(echo "$details" | grep -m 1 '"Created":' | cut -d '"' -f 4)
+        echo "IP: $ip, Created: $created"
+    else
+        echo "No details available"
+    fi
+}
+
 # Function to reverse file content (compatible with both macOS and Linux)
 reverse_file() {
     if command -v tac >/dev/null 2>&1; then
@@ -36,66 +50,57 @@ reverse_file() {
 
 # Check if shutdown list exists
 if [ ! -f "$SHUTDOWN_LIST" ]; then
-    log_message "No shutdown list found at $SHUTDOWN_LIST. Nothing to start."
+    log_message "No shutdown list found at $SHUTDOWN_LIST. Nothing to start." "WARNING"
     exit 1
 fi
 
-log_message "Starting Docker containers from shutdown list..."
+log_message "Starting Docker containers from shutdown list..." "INFO"
 
 # Read the shutdown list in reverse order (to respect dependencies)
 while IFS='|' read -r name image cmd ports networks; do
-    log_message "Processing container: $name"
+    log_message "Processing container: $name" "INFO"
     
     # Check container status
     container_status=$(check_container "$name")
     
-    case $container_status in
+    case "$container_status" in
         "running")
-            log_message "Container $name is already running, skipping..."
-            continue
+            log_message "Container $name is already running" "INFO"
+            details=$(get_container_details "$name")
+            log_message "Container details - $details" "INFO"
             ;;
         "stopped")
-            log_message "Container $name exists but is stopped, starting it..."
+            log_message "Starting stopped container: $name" "INFO"
             if docker start "$name"; then
-                log_message "Successfully started existing container: $name"
+                details=$(get_container_details "$name")
+                log_message "Successfully started container $name" "SUCCESS"
+                log_message "Container details - $details" "INFO"
             else
-                log_message "Failed to start existing container: $name"
+                log_message "Failed to start container $name" "ERROR"
             fi
-            continue
             ;;
         "none")
-            # Process port mappings
-            port_args=""
-            if [ ! -z "$ports" ]; then
-                # Convert semicolon-separated port mappings into multiple -p arguments
-                for port_mapping in ${ports//;/ }; do
-                    if [ ! -z "$port_mapping" ]; then
-                        port_args="$port_args -p $port_mapping"
-                    fi
-                done
-            fi
-            
-            # Process network
-            network_arg=""
-            if [ ! -z "$networks" ]; then
-                # Get first network (before semicolon)
-                network=$(echo "$networks" | cut -d';' -f1)
-                if [ ! -z "$network" ]; then
-                    network_arg="--network $network"
-                fi
-            fi
-            
+            log_message "Creating new container: $name" "INFO"
             # Create and start the container
-            docker_cmd="docker run -d --name ${name} ${port_args} ${network_arg} ${image} ${cmd}"
-            log_message "Creating new container: $docker_cmd"
-            
-            if eval "$docker_cmd"; then
-                log_message "Successfully created and started container: $name"
+            if [ -z "$networks" ]; then
+                if docker run -d --name "$name" $ports "$image" $cmd; then
+                    details=$(get_container_details "$name")
+                    log_message "Successfully created and started container $name" "SUCCESS"
+                    log_message "Container details - $details" "INFO"
+                else
+                    log_message "Failed to create container $name" "ERROR"
+                fi
             else
-                log_message "Failed to create and start container: $name"
+                if docker run -d --name "$name" $ports --network "$networks" "$image" $cmd; then
+                    details=$(get_container_details "$name")
+                    log_message "Successfully created and started container $name with network $networks" "SUCCESS"
+                    log_message "Container details - $details" "INFO"
+                else
+                    log_message "Failed to create container $name with network $networks" "ERROR"
+                fi
             fi
             ;;
     esac
 done < <(reverse_file "$SHUTDOWN_LIST")
 
-log_message "Finished starting all containers from shutdown list."
+log_message "Container startup process completed" "INFO"
