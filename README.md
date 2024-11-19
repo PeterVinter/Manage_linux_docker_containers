@@ -1,9 +1,9 @@
 # Docker Safe Shutdown
 
-![License](https://img.shields.io/github/license/PeterVinter/docker-safe-shutdown)
-![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/docker-safe-shutdown)
+![License](https://img.shields.io/github/license/PeterVinter/linux_docker_container_shutdown)
+![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/linux_docker_container_shutdown)
 ![Stars](https://img.shields.io/github/stars/PeterVinter/docker-safe-shutdown)
-![Issues](https://img.shields.io/github/issues/PeterVinter/docker-safe-shutdown)
+![Issues](https://img.shields.io/github/issues/PeterVinter/linux_docker_container_shutdown)
 ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=flat&logo=powershell&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
