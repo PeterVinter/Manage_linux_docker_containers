@@ -16,6 +16,14 @@
 
 A comprehensive solution for managing Docker containers on Linux systems, including safe shutdown, startup, and monitoring capabilities.
 
+## Features
+
+- Safely shuts down Docker containers
+- Handles graceful termination of processes
+- Supports custom shutdown scripts
+- Automated changelog generation
+- Comprehensive documentation
+
 ## ✨ Features
 
 - 🛑 Safe shutdown of Docker containers with proper cleanup
