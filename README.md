@@ -6,9 +6,9 @@
 ![Issues](https://img.shields.io/github/issues/PeterVinter/Manage_linux_docker_containers)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat&logo=gnu-bash&logoColor=white)
-[![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
-[![Release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/graphs/commit-activity)
+[![CI](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/ci.yml/badge.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/ci.yml)
+[![Release](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/release.yml/badge.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/actions/workflows/release.yml)
+[![Maintenance](https://img.shields.io/maintenance/yes/2024)](https://github.com/PeterVinter/Manage_linux_docker_containers/graphs/commit-activity)
 ![Tests](https://img.shields.io/badge/Tests-Passing-success)
 [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
@@ -16,23 +16,31 @@
 
 A comprehensive solution for managing Docker containers on Linux systems, including safe shutdown, startup, and monitoring capabilities.
 
-## ✨ Features
+## Features
 
-- 🛑 Safe shutdown of Docker containers with proper cleanup
-- 🚀 Automatic container startup on system boot
-- 📝 Detailed logging of all operations
-- 🔄 Error handling and recovery
-- 🔍 Container status monitoring
-- ⚡ Performance optimization
+- Safely shuts down Docker containers
+- Handles graceful termination of processes
+- Supports custom shutdown scripts
+- Automated changelog generation
+- Comprehensive documentation
 
-## 📋 Prerequisites
+## Features
+
+- Safe shutdown of Docker containers with proper cleanup
+- Automatic container startup on system boot
+- Detailed logging of all operations
+- Error handling and recovery
+- Container status monitoring
+- Performance optimization
+
+## Prerequisites
 
 - Linux operating system
 - Docker installed and running
 - Bash shell (version 4.0+)
 - Root or sudo privileges
 
-## 🚀 Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -45,7 +53,7 @@ cd Manage_linux_docker_containers
 chmod +x *.sh
 ```
 
-## 🎯 Usage
+## Usage
 
 ### Starting Containers
 ```bash
@@ -57,7 +65,7 @@ chmod +x *.sh
 ./docker_safe_shutdown.sh
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 The scripts can be configured by modifying the following variables:
 
@@ -65,7 +73,7 @@ The scripts can be configured by modifying the following variables:
 - `LOG_FILE`: Location of log files
 - `CONTAINER_LIST`: List of containers to manage
 
-## 📊 Logging
+## Logging
 
 Logs are stored in:
 - `startup_logs.txt`: Container startup logs
@@ -76,38 +84,24 @@ Logs are stored in:
 
 ### Project Management
 
-We use GitHub Projects to track the development of features and improvements. You can find our project board at:
-[Manage_linux_docker_containers Development](https://github.com/users/PeterVinter/projects/1/views/1)
+This project uses GitHub's project management features to track issues, pull requests, and milestones. We follow a structured workflow:
 
-For detailed GitHub CLI commands and workflows, see our [GitHub CLI Workflow Guide](docs/github_cli_workflow.md).
+1. **Issues**: Used to track bugs, feature requests, and tasks
+2. **Pull Requests**: Follow our [contribution guidelines](CONTRIBUTING.md)
+3. **Milestones**: Group related issues and PRs for releases
+4. **Project Board**: Visual kanban board for task tracking
+5. **Automated Changelog**: Updates via GitHub Actions on PR merges
 
-#### Development Workflow
+Our changelog follows the [Keep a Changelog](https://keepachangelog.com/) format and is automatically updated when PRs are merged.
 
-1. **Issue Tracking**
-   - All features and bugs are tracked as GitHub Issues
-   - Features are versioned following semantic versioning:
-     - v1.0.x: Bug fixes and minor improvements
-     - v1.1.0: New features and functionality
-     - v2.0.0: Breaking changes
+### Automated Changelog
 
-2. **Project Board Columns**
-   - 📋 Backlog: Planned features and improvements
-   - 🎯 Priority: Selected for current development
-   - 🏗️ In Progress: Currently being worked on
-   - 👀 Review: Ready for code review
-   - ✅ Done: Completed and merged
-
-3. **Issue Classification**
-   - Priority: 🔥 High, 🚀 Medium, 🌱 Low
-   - Effort: 🐘 Large, 🦊 Medium, 🐇 Small
-   - Target Version: Specified version for release
-   - Assignees: Developer working on the issue
-
-4. **Contributing**
-   - Check the [Project Board](https://github.com/users/PeterVinter/projects/1/views/1) for available tasks
-   - Read [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines
-   - Follow the issue template when creating new issues
-   - Reference issues in pull requests
+This project uses an automated changelog workflow that:
+- Updates CHANGELOG.md when PRs are merged to main
+- Determines change type from PR title (feat, fix, docs, etc.)
+- Increments version number automatically
+- Creates a new PR with changelog updates
+- Follows [Keep a Changelog](https://keepachangelog.com/) format
 
 ### Automated Releases
 
@@ -168,4 +162,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-If you encounter any problems or have suggestions, please [open an issue](../../issues/new).
+If you encounter any problems or have suggestions, please [open an issue](https://github.com/PeterVinter/Manage_linux_docker_containers/issues/new).

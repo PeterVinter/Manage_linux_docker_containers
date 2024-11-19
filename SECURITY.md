@@ -2,40 +2,37 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are currently being supported with security updates.
+We maintain security updates for the following versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.0.3   | :white_check_mark: |
-| 1.0.2   | :white_check_mark: |
-| 1.0.1   | :x:                |
+| 2.0.x   | :white_check_mark: |
+| 1.0.x   | :white_check_mark: |
+| < 1.0   | :x:                |
 
-## Reporting a Security Vulnerability
+## Reporting a Vulnerability
 
-We take the security of Docker Safe Shutdown seriously. If you believe you have found a security vulnerability, please report it to us as described below.
+We take the security of our Docker container management tools seriously. If you discover a security vulnerability, please follow these steps:
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+1. **Do Not** create a public GitHub issue for the vulnerability.
+2. Submit your findings through one of these channels:
+   - Open a [Security Advisory](https://github.com/PeterVinter/Manage_linux_docker_containers/security/advisories/new)
+   - Email the maintainers at peter.vinter.security@gmail.com
 
-Instead, please report them via email to [security@petervinter.com] or open a private security advisory at https://github.com/PeterVinter/docker-safe-shutdown/security/advisories/new
+We follow the principles of [Responsible Disclosure](https://en.wikipedia.org/wiki/Responsible_disclosure).
 
-You should receive a response within 48 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
+### What to Include
 
-Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
+When reporting a vulnerability, please include:
 
-* Type of issue (e.g. buffer overflow, SQL injection, cross-site scripting, etc.)
-* Full paths of source file(s) related to the manifestation of the issue
-* The location of the affected source code (tag/branch/commit or direct URL)
-* Any special configuration required to reproduce the issue
-* Step-by-step instructions to reproduce the issue
-* Proof-of-concept or exploit code (if possible)
-* Impact of the issue, including how an attacker might exploit the issue
+- A brief description of the vulnerability
+- Steps to reproduce the issue
+- Potential impact
+- Any suggested fixes (if available)
 
-This information will help us triage your report more quickly.
+### Our Commitment
 
-## Preferred Languages
-
-We prefer all communications to be in English.
-
-## Policy
-
-We follow the principle of [Responsible Disclosure](https://en.wikipedia.org/wiki/Responsible_disclosure).
+- We will acknowledge receipt within 48 hours
+- We will provide regular updates on our progress
+- We will notify you when the vulnerability is fixed
+- We will publicly acknowledge your responsible disclosure (unless you prefer to remain anonymous)
