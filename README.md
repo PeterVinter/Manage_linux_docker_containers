@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/github/license/PeterVinter/linux_docker_container_shutdown)
 ![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/linux_docker_container_shutdown)
-![Stars](https://img.shields.io/github/stars/PeterVinter/docker-safe-shutdown)
+![Stars](https://img.shields.io/github/stars/PeterVinter/linux_docker_container_shutdown)
 ![Issues](https://img.shields.io/github/issues/PeterVinter/linux_docker_container_shutdown)
 ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=flat&logo=powershell&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
