@@ -76,10 +76,15 @@ Logs are stored in:
 
 ### Project Management
 
-We use GitHub Projects to track the development of features and improvements. You can find our project board at:
-[Project Board](https://github.com/PeterVinter/Manage_linux_docker_containers/projects)
+This project uses GitHub's project management features to track issues, pull requests, and milestones. We follow a structured workflow:
 
-For detailed GitHub CLI commands and workflows, see our [GitHub CLI Workflow Guide](docs/github_cli_workflow.md).
+1. **Issues**: Used to track bugs, feature requests, and tasks
+2. **Pull Requests**: Follow our [contribution guidelines](CONTRIBUTING.md)
+3. **Milestones**: Group related issues and PRs for releases
+4. **Project Board**: Visual kanban board for task tracking
+5. **Automated Changelog**: Updates via GitHub Actions on PR merges
+
+Our changelog follows the [Keep a Changelog](https://keepachangelog.com/) format and is automatically updated when PRs are merged.
 
 ### Automated Changelog
 
