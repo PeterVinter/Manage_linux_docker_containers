@@ -1,18 +1,18 @@
-# Docker Safe Shutdown
+# Docker Container Management
 
-![License](https://img.shields.io/github/license/PeterVinter/linux_docker_container_shutdown)
-![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/linux_docker_container_shutdown)
-![Stars](https://img.shields.io/github/stars/PeterVinter/linux_docker_container_shutdown)
-![Issues](https://img.shields.io/github/issues/PeterVinter/linux_docker_container_shutdown)
+![License](https://img.shields.io/github/license/PeterVinter/Manage_linux_docker_containers)
+![Last Commit](https://img.shields.io/github/last-commit/PeterVinter/Manage_linux_docker_containers)
+![Stars](https://img.shields.io/github/stars/PeterVinter/Manage_linux_docker_containers)
+![Issues](https://img.shields.io/github/issues/PeterVinter/Manage_linux_docker_containers)
 ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=flat&logo=powershell&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 [![Release](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/docker-safe-shutdown/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/PeterVinter/Manage_linux_docker_containers/graphs/commit-activity)
 ![Tests](https://img.shields.io/badge/Tests-Passing-success)
 [![made-with-bash](https://img.shields.io/badge/Made%20with-Bash-1f425f.svg)](https://www.gnu.org/software/bash/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPeterVinter%2Fdocker-safe-shutdown&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FPeterVinter%2FManage_linux_docker_containers&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 A robust solution for safely shutting down and starting up Docker containers on Linux systems.
 
@@ -35,8 +35,8 @@ A robust solution for safely shutting down and starting up Docker containers on 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/PeterVinter/docker-safe-shutdown.git
-cd docker-safe-shutdown
+git clone https://github.com/PeterVinter/Manage_linux_docker_containers.git
+cd Manage_linux_docker_containers
 ```
 
 2. Make the scripts executable:
@@ -76,7 +76,7 @@ Logs are stored in:
 ### Project Management
 
 We use GitHub Projects to track the development of features and improvements. You can find our project board at:
-[Docker Safe Shutdown Development](https://github.com/users/PeterVinter/projects/1/views/1)
+[Manage_linux_docker_containers Development](https://github.com/users/PeterVinter/projects/1/views/1)
 
 For detailed GitHub CLI commands and workflows, see our [GitHub CLI Workflow Guide](docs/github_cli_workflow.md).
 
