@@ -44,16 +44,22 @@ jobs:
       - name: Update Changelog
         if: steps.changelog-check.outputs.only_changelog != 'true'
         run: |
-          # Check if CHANGELOG.md exists
+          # Check if CHANGELOG.md exists and create if needed
           if [ ! -f CHANGELOG.md ]; then
-            echo "Error: CHANGELOG.md not found"
             echo "Creating initial CHANGELOG.md"
-            echo "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n" > CHANGELOG.md
+            cat > CHANGELOG.md << EOL
+          # Changelog
+
+          All notable changes to this project will be documented in this file.
+
+          The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+          and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+          EOL
             CURRENT_VERSION="0.0.0"
           else
             echo "Reading current version from CHANGELOG.md"
-            # Read current version from latest entry with error handling
-            CURRENT_VERSION=$(grep -m 1 "## \[v" CHANGELOG.md | sed 's/## \[v\(.*\)\].*/\1/')
+            CURRENT_VERSION=$(grep -m 1 "## \[v" CHANGELOG.md | sed -E 's/## \[v([0-9]+\.[0-9]+\.[0-9]+)\].*/\1/')
             if [ -z "$CURRENT_VERSION" ]; then
               echo "Warning: No version found in CHANGELOG.md, using 0.0.0"
               CURRENT_VERSION="0.0.0"
@@ -71,6 +77,12 @@ jobs:
           PR_TITLE="${{ steps.pr-info.outputs.title }}"
           echo "Processing PR title: $PR_TITLE"
           
+          # Version increment logic with error handling
+          if [[ ! "$major" =~ ^[0-9]+$ ]] || [[ ! "$minor" =~ ^[0-9]+$ ]] || [[ ! "$patch" =~ ^[0-9]+$ ]]; then
+            echo "Error: Invalid version format. Using 0.0.0"
+            major=0; minor=0; patch=0
+          fi
+          
           if [[ "$PR_TITLE" == *"!"* || "$PR_TITLE" == *"BREAKING CHANGE"* ]]; then
             echo "Detected breaking change, incrementing major version"
             NEW_VERSION="$((major + 1)).0.0"
@@ -84,67 +96,104 @@ jobs:
           
           echo "New version will be: $NEW_VERSION"
           
-          # Create new changelog entry
+          # Create new changelog entry with error handling
           NEW_ENTRY="## [v${NEW_VERSION}] - ${DATE}\n\n"
           
-          # Determine change type from PR title
-          if [[ "$PR_TITLE" == *"!"* || "$PR_TITLE" == *"BREAKING CHANGE"* ]]; then
-            CHANGE_TYPE="Breaking Change"
-          elif [[ "$PR_TITLE" == *"feat:"* || "$PR_TITLE" == *"feature:"* ]]; then
-            CHANGE_TYPE="Added"
-          elif [[ "$PR_TITLE" == *"fix:"* ]]; then
-            CHANGE_TYPE="Fixed"
-          elif [[ "$PR_TITLE" == *"docs:"* ]]; then
-            CHANGE_TYPE="Documentation"
-          elif [[ "$PR_TITLE" == *"refactor:"* ]]; then
-            CHANGE_TYPE="Changed"
-          elif [[ "$PR_TITLE" == *"security:"* ]]; then
-            CHANGE_TYPE="Security"
-          else
-            CHANGE_TYPE="Changed"
-          fi
+          # Determine change type from PR title with improved categorization
+          case "$PR_TITLE" in
+            *"!"*|*"BREAKING CHANGE"*) CHANGE_TYPE="Breaking Change" ;;
+            *"feat:"*|*"feature:"*) CHANGE_TYPE="Added" ;;
+            *"fix:"*) CHANGE_TYPE="Fixed" ;;
+            *"docs:"*) CHANGE_TYPE="Documentation" ;;
+            *"refactor:"*) CHANGE_TYPE="Changed" ;;
+            *"security:"*) CHANGE_TYPE="Security" ;;
+            *"perf:"*) CHANGE_TYPE="Performance" ;;
+            *"test:"*) CHANGE_TYPE="Testing" ;;
+            *) CHANGE_TYPE="Changed" ;;
+          esac
           
           echo "Change type determined as: $CHANGE_TYPE"
           NEW_ENTRY+="### ${CHANGE_TYPE}\n"
-          NEW_ENTRY+="- ${PR_TITLE#*: }\n"
           
-          # Add PR body details if they exist
-          PR_BODY="${{ steps.pr-info.outputs.body }}"
+          # Clean PR title for changelog entry
+          CLEAN_TITLE=$(echo "${PR_TITLE#*: }" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+          NEW_ENTRY+="- ${CLEAN_TITLE}\n"
+          
+          # Add PR body details if they exist with improved formatting
+          PR_BODY=$(cat << 'EOF'
+          ${{ steps.pr-info.outputs.body }}
+          EOF
+          )
           if [ ! -z "$PR_BODY" ]; then
             echo "Processing PR body for additional details"
             echo "$PR_BODY" | while IFS= read -r line; do
-              # Skip PR template checkboxes and empty lines
-              if [[ ! "$line" =~ ^\s*-\s*\[[ xX]\] ]] && [ ! -z "$line" ]; then
-                NEW_ENTRY+="  - $line\n"
+              # Skip PR template checkboxes, empty lines, and markdown headers
+              if [[ ! "$line" =~ ^\s*-\s*\[[ xX]\] ]] && \
+                 [[ ! "$line" =~ ^#+ ]] && \
+                 [ ! -z "$(echo "$line" | tr -d '[:space:]')" ]; then
+                NEW_ENTRY+="  - $(echo "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')\n"
               fi
             done
           fi
           
-          # Add version link
-          NEW_ENTRY+="\n[v${NEW_VERSION}]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v${NEW_VERSION}\n"
+          # Add version link with repository URL from environment
+          REPO_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+          NEW_ENTRY+="\n[v${NEW_VERSION}]: ${REPO_URL}/releases/tag/v${NEW_VERSION}\n"
           
-          # Create temporary file with new content
-          echo -e "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),\nand this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n\n${NEW_ENTRY}\n$(tail -n +7 CHANGELOG.md)" > CHANGELOG.md.new
-          mv CHANGELOG.md.new CHANGELOG.md
+          # Create temporary file with new content with error handling
+          if ! echo -e "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),\nand this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n\n${NEW_ENTRY}\n$(tail -n +7 CHANGELOG.md 2>/dev/null || true)" > CHANGELOG.md.new; then
+            echo "Error: Failed to create new changelog file"
+            exit 1
+          fi
           
-          # Configure Git
+          if ! mv CHANGELOG.md.new CHANGELOG.md; then
+            echo "Error: Failed to update changelog file"
+            exit 1
+          fi
+          
+          # Configure Git with error handling
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           
-          # Create branch and commit changes
+          # Create branch and commit changes with error handling
           BRANCH_NAME="bot/update-changelog-v${NEW_VERSION}"
-          git checkout -b "$BRANCH_NAME"
-          git add CHANGELOG.md
-          git commit -m "docs: update changelog for v${NEW_VERSION}"
-          git push origin "$BRANCH_NAME"
+          if ! git checkout -b "$BRANCH_NAME"; then
+            echo "Error: Failed to create new branch"
+            exit 1
+          fi
           
-          # Create PR
-          gh pr create \
+          if ! git add CHANGELOG.md; then
+            echo "Error: Failed to stage changes"
+            exit 1
+          fi
+          
+          if ! git commit -m "docs: update changelog for v${NEW_VERSION}"; then
+            echo "Error: Failed to commit changes"
+            exit 1
+          fi
+          
+          if ! git push origin "$BRANCH_NAME"; then
+            echo "Error: Failed to push changes"
+            exit 1
+          fi
+          
+          # Create PR with error handling and more descriptive message
+          PR_BODY="## Automated Changelog Update
+
+          This PR updates the changelog for version ${NEW_VERSION}
+
+          ### Changes
+          - Type: ${CHANGE_TYPE}
+          - Original PR Title: ${PR_TITLE}
+
+          This is an automated update by the changelog workflow."
+          
+          if ! gh pr create \
             --title "docs: update changelog for v${NEW_VERSION}" \
-            --body "Automated changelog update for version ${NEW_VERSION}" \
+            --body "$PR_BODY" \
             --base main \
-            --head "$BRANCH_NAME" || {
-              echo "Failed to create PR, but continuing..."
-            }
+            --head "$BRANCH_NAME"; then
+            echo "Warning: Failed to create PR, but changes were pushed to branch"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
