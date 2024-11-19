@@ -5,7 +5,6 @@ on:
     types: [closed]
     branches:
       - main
-      - develop
 
 jobs:
   update-changelog:
@@ -73,9 +72,27 @@ jobs:
           DATE=$(date +%Y-%m-%d)
           echo "Generating changelog entry for date: $DATE"
           
+          # Get PR details with better merge handling
+          PR_TITLE="${{ steps.pr-info.outputs.title }}"
+          PR_BODY="${{ steps.pr-info.outputs.body }}"
+          
+          # Special handling for develop->main merges
+          if [[ "$PR_TITLE" == "Merge branch 'develop' into main" ]]; then
+            echo "Detected develop->main merge, analyzing commit messages"
+            # Get all commits since last merge to main
+            COMMITS=$(git log --format="%s" HEAD^..HEAD)
+            # Look for feature or breaking changes in commits
+            if echo "$COMMITS" | grep -q "!\\|BREAKING CHANGE"; then
+              PR_TITLE="BREAKING CHANGE: Updates from develop branch"
+            elif echo "$COMMITS" | grep -q "feat:\\|feature:"; then
+              PR_TITLE="feat: Updates from develop branch"
+            else
+              PR_TITLE="fix: Updates from develop branch"
+            fi
+          fi
+          
           # Increment version based on PR title
           IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
-          PR_TITLE="${{ steps.pr-info.outputs.title }}"
           echo "Processing PR title: $PR_TITLE"
           
           # Version increment logic with error handling
