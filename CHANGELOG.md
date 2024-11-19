@@ -74,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented security reporting process
 - Added recommended privileges documentation
 
+[v1.0.10]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v1.0.10
 [v1.0.9]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v1.0.9
 [v1.0.8]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v1.0.8
 [v1.0.7]: https://github.com/PeterVinter/Manage_linux_docker_containers/releases/tag/v1.0.7

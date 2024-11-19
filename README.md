@@ -24,23 +24,23 @@ A comprehensive solution for managing Docker containers on Linux systems, includ
 - Automated changelog generation
 - Comprehensive documentation
 
-## ✨ Features
+## Features
 
-- 🛑 Safe shutdown of Docker containers with proper cleanup
-- 🚀 Automatic container startup on system boot
-- 📝 Detailed logging of all operations
-- 🔄 Error handling and recovery
-- 🔍 Container status monitoring
-- ⚡ Performance optimization
+- Safe shutdown of Docker containers with proper cleanup
+- Automatic container startup on system boot
+- Detailed logging of all operations
+- Error handling and recovery
+- Container status monitoring
+- Performance optimization
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Linux operating system
 - Docker installed and running
 - Bash shell (version 4.0+)
 - Root or sudo privileges
 
-## 🚀 Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -53,7 +53,7 @@ cd Manage_linux_docker_containers
 chmod +x *.sh
 ```
 
-## 🎯 Usage
+## Usage
 
 ### Starting Containers
 ```bash
@@ -65,7 +65,7 @@ chmod +x *.sh
 ./docker_safe_shutdown.sh
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 The scripts can be configured by modifying the following variables:
 
@@ -73,7 +73,7 @@ The scripts can be configured by modifying the following variables:
 - `LOG_FILE`: Location of log files
 - `CONTAINER_LIST`: List of containers to manage
 
-## 📊 Logging
+## Logging
 
 Logs are stored in:
 - `startup_logs.txt`: Container startup logs
