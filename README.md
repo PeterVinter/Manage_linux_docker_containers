@@ -284,29 +284,78 @@ Our project follows a structured branching strategy to maintain code quality and
      - Update changelog automatically
      - Create release tag
 
-#### Changelog Automation
+#### Changelog Process
 
-Our changelog is automatically managed through PRs:
+The changelog is automatically updated through our GitHub Actions workflow. Here's the complete process:
 
-1. **Version Bumping**
-   - Major (2.0.0 → 3.0.0): PR title contains `!` or `BREAKING CHANGE`
-   - Minor (2.0.0 → 2.1.0): PR title starts with `feat:`
-   - Patch (2.0.0 → 2.0.1): All other changes
+1. **Starting Development**
+   ```bash
+   # Always start from develop
+   git checkout develop
+   git pull origin develop
+   
+   # Create your feature branch
+   git checkout -b feature/your-feature
+   ```
 
-2. **Entry Categories**
-   - Added: New features
-   - Changed: Changes in existing functionality
-   - Deprecated: Soon-to-be removed features
-   - Removed: Removed features
-   - Fixed: Bug fixes
-   - Security: Vulnerability fixes
+2. **Making Changes**
+   ```bash
+   # Make your changes
+   git add .
+   git commit -m "type: description"
+   git push origin feature/your-feature
+   ```
 
-3. **Process Flow**
-   - Merge PR → Workflow detects changes
-   - Creates changelog entry
-   - Updates version number
-   - Creates new PR with changes
-   - Auto-merges changelog update
+3. **Pull Request Flow**
+   a. Feature to Develop:
+      - Create PR from your feature branch to develop
+      - Get review and approval
+      - Merge to develop
+   
+   b. Develop to Main:
+      - Create PR from develop to main
+      - Get review and approval
+      - Merge to main
+      - **IMPORTANT**: Wait for changelog PR
+   
+   c. Changelog Update:
+      - Automatic PR will be created
+      - Title will be: "docs: update changelog for vX.Y.Z"
+      - **MUST** merge this PR before new changes
+
+4. **Version Updates**
+   The workflow automatically determines version increments:
+   - Major (X.0.0): Breaking changes
+   - Minor (x.Y.0): New features
+   - Patch (x.y.Z): Bug fixes and docs
+
+5. **Important Notes**
+   - Never skip waiting for the changelog PR
+   - Always merge changelog PR before new changes
+   - Keep PRs focused and single-purpose
+   - Follow commit message conventions
+
+Example Flow:
+```bash
+# Start new feature
+git checkout develop
+git pull origin develop
+git checkout -b feature/new-feature
+
+# Make changes and commit
+git add .
+git commit -m "feat: add new feature"
+git push origin feature/new-feature
+
+# Create PR to develop and wait for merge
+# Create PR to main and wait for merge
+# Wait for changelog PR and merge it
+
+# Then start next feature
+git checkout develop
+git pull origin develop
+git checkout -b feature/next-feature
+```
 
 #### Best Practices
 
